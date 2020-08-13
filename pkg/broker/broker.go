@@ -1,3 +1,17 @@
+// Copyright 2020 MongoDB Inc
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package broker
 
 import (
@@ -8,11 +22,13 @@ import (
 	"net/url"
 	"runtime"
 	"strings"
+	"time"
 
 	"github.com/goccy/go-yaml"
 	"github.com/gorilla/mux"
 	"github.com/mitchellh/mapstructure"
 	"github.com/mongodb/go-client-mongodb-atlas/mongodbatlas"
+	"github.com/mongodb/mongodb-atlas-service-broker/pkg/broker/config"
 	"github.com/mongodb/mongodb-atlas-service-broker/pkg/broker/credentials"
 	"github.com/mongodb/mongodb-atlas-service-broker/pkg/broker/dynamicplans"
 	"github.com/mongodb/mongodb-atlas-service-broker/pkg/broker/statestorage"
@@ -23,6 +39,10 @@ import (
 
 // Ensure broker adheres to the ServiceBroker interface.
 var _ domain.ServiceBroker = new(Broker)
+
+// releaseVersion should be set by the linker at compile time.
+var releaseVersion = "0.0.0+devbuild." + time.Now().UTC().Format("20060102T150405")
+var userAgent = fmt.Sprintf("%s/%s (%s;%s)", config.ToolName, releaseVersion, runtime.GOOS, runtime.GOARCH)
 
 // Broker is responsible for translating OSB calls to Atlas API calls.
 // Implements the domain.ServiceBroker interface making it easy to spin up
@@ -160,6 +180,8 @@ func (b *Broker) getClient(ctx context.Context, instanceID string, planID string
 		}
 
 		client, err = b.credentials.Client(b.baseURL, k)
+		client.UserAgent = userAgent
+
 		return
 	}
 
@@ -175,6 +197,7 @@ func (b *Broker) getClient(ctx context.Context, instanceID string, planID string
 		if err != nil {
 			return
 		}
+		client.UserAgent = userAgent
 
 		// try to merge existing project into plan, don't error out if not found
 		var existing *mongodbatlas.Project

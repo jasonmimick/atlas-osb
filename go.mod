@@ -10,6 +10,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1
 	github.com/drewolson/testflight v1.0.0 // indirect
 	github.com/goccy/go-yaml v1.8.0
+	github.com/google/addlicense v0.0.0-20200622132530-df58acafd6d5 // indirect
 	github.com/google/go-querystring v1.0.0
 	github.com/gorilla/mux v1.7.3
 	github.com/huandu/xstrings v1.3.2 // indirect
@@ -26,6 +27,7 @@ require (
 	go.mongodb.org/mongo-driver v1.4.0
 	go.uber.org/zap v1.15.0
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45 // indirect
+	golang.org/x/sync v0.0.0-20200625203802-6e8e738ad208 // indirect
 	golang.org/x/time v0.0.0-20200630173020-3af7569d3a1e // indirect
 	gopkg.in/yaml.v2 v2.3.0
 	k8s.io/api v0.0.0-20190806064354-8b51d7113622
