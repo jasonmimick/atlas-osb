@@ -10,7 +10,6 @@ require (
 	github.com/davecgh/go-spew v1.1.1
 	github.com/drewolson/testflight v1.0.0 // indirect
 	github.com/goccy/go-yaml v1.8.0
-	github.com/google/addlicense v0.0.0-20200622132530-df58acafd6d5 // indirect
 	github.com/google/go-querystring v1.0.0
 	github.com/gorilla/mux v1.7.3
 	github.com/huandu/xstrings v1.3.2 // indirect
