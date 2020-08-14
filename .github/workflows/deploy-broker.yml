@@ -23,25 +23,20 @@ jobs:
           # Optional: show only new issues if it's a pull request. The default value is `false`.
           # only-new-issues: true
 
-  pre-ci:
-    name: wait for other CI to finish
-    runs-on: ubuntu-latest
-    timeout-minutes: 120
-    steps:
-      - name: "Block Concurrent Executions"
-        uses: softprops/turnstyle@v1
-        with:
-          poll-interval-seconds: 10
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   basic-plan-cloudfoundry:
     name: basic-plan-cloudfoundry
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.1
 
-      - name: Create CF org, space, broker, service and push app)
+      - name: Wait for other CI to finish
+        uses: softprops/turnstyle@v1
+        with:
+          poll-interval-seconds: 10
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create CF org, space, broker, service and push app
         id: prepare
         uses: ./.github/actions/e2e-cf
         with:
