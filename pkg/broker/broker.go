@@ -22,13 +22,11 @@ import (
 	"net/url"
 	"runtime"
 	"strings"
-	"time"
 
 	"github.com/goccy/go-yaml"
 	"github.com/gorilla/mux"
 	"github.com/mitchellh/mapstructure"
 	"github.com/mongodb/go-client-mongodb-atlas/mongodbatlas"
-	"github.com/mongodb/mongodb-atlas-service-broker/pkg/broker/config"
 	"github.com/mongodb/mongodb-atlas-service-broker/pkg/broker/credentials"
 	"github.com/mongodb/mongodb-atlas-service-broker/pkg/broker/dynamicplans"
 	"github.com/mongodb/mongodb-atlas-service-broker/pkg/broker/statestorage"
@@ -40,10 +38,6 @@ import (
 // Ensure broker adheres to the ServiceBroker interface.
 var _ domain.ServiceBroker = new(Broker)
 
-// releaseVersion should be set by the linker at compile time.
-var releaseVersion = "0.0.0+devbuild." + time.Now().UTC().Format("20060102T150405")
-var userAgent = fmt.Sprintf("%s/%s (%s;%s)", config.ToolName, releaseVersion, runtime.GOOS, runtime.GOARCH)
-
 // Broker is responsible for translating OSB calls to Atlas API calls.
 // Implements the domain.ServiceBroker interface making it easy to spin up
 // an API server.
@@ -54,16 +48,18 @@ type Broker struct {
 	baseURL     string
 	catalog     *catalog
 	state       *statestorage.RealmStateStorage
+	userAgent   string
 }
 
 // New creates a new Broker with a logger.
-func New(logger *zap.SugaredLogger, credentials *credentials.Credentials, baseURL string, whitelist Whitelist, state *statestorage.RealmStateStorage) *Broker {
+func New(logger *zap.SugaredLogger, credentials *credentials.Credentials, baseURL string, whitelist Whitelist, state *statestorage.RealmStateStorage, userAgent string) *Broker {
 	b := &Broker{
 		logger:      logger,
 		credentials: credentials,
 		baseURL:     baseURL,
 		whitelist:   whitelist,
 		state:       state,
+		userAgent:   userAgent,
 	}
 
 	b.buildCatalog()
@@ -180,7 +176,7 @@ func (b *Broker) getClient(ctx context.Context, instanceID string, planID string
 		}
 
 		client, err = b.credentials.Client(b.baseURL, k)
-		client.UserAgent = userAgent
+		client.UserAgent = b.userAgent
 
 		return
 	}
@@ -197,7 +193,7 @@ func (b *Broker) getClient(ctx context.Context, instanceID string, planID string
 		if err != nil {
 			return
 		}
-		client.UserAgent = userAgent
+		client.UserAgent = b.userAgent
 
 		// try to merge existing project into plan, don't error out if not found
 		var existing *mongodbatlas.Project

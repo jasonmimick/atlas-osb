@@ -17,6 +17,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"runtime"
 	"time"
 
 	"github.com/alexflint/go-arg"
@@ -28,6 +29,8 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
+
+const toolName = "atlas-aosb"
 
 // releaseVersion should be set by the linker at compile time.
 var releaseVersion = "0.0.0+devbuild." + time.Now().UTC().Format("20060102T150405")
@@ -145,11 +148,12 @@ func createCredsAndDB(logger *zap.SugaredLogger, atlasURL string, realmURL strin
 func createBroker(logger *zap.SugaredLogger) *broker.Broker {
 	logger.Infow("Creating broker", "atlas_base_url", args.AtlasURL, "whitelist_file", args.WhitelistFile)
 
+	userAgent := fmt.Sprintf("%s/%s (%s;%s)", toolName, releaseVersion, runtime.GOOS, runtime.GOARCH)
 	creds, state := createCredsAndDB(logger, args.AtlasURL, args.RealmURL)
 
 	// Administrators can control what providers/plans are available to users
 	if args.WhitelistFile == "" {
-		return broker.New(logger, creds, args.AtlasURL, nil, state)
+		return broker.New(logger, creds, args.AtlasURL, nil, state, userAgent)
 	}
 
 	// TODO
@@ -160,7 +164,7 @@ func createBroker(logger *zap.SugaredLogger) *broker.Broker {
 		logger.Fatal("Cannot load providers whitelist: %v", err)
 	}
 
-	return broker.New(logger, creds, args.AtlasURL, whitelist, state)
+	return broker.New(logger, creds, args.AtlasURL, whitelist, state, userAgent)
 }
 
 func startBrokerServer() {
