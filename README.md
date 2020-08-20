@@ -408,11 +408,13 @@ When the broker creates a binding, it will translate the Connection Details for 
 The format for the JSON available for binding in `VCAP_SERVICES` is:
 
 ```json
-{ 'connectionString': 'mongodb+srv://uuuuuuuuu:xxxxxxxx@chewy-123.6bikq.mongodb.net/admin',
-  'password': 'xxxxxxxxxx',
-  'uri': 'mongodb+srv://chewy-123.6bikq.mongodb.net',
-  'username': 'uuuuuuuuuu',
-  'datbase': 'admin'}
+{ 
+  "connectionString": "mongodb+srv://uuuuuuuuu:xxxxxxxx@chewy-123.6bikq.mongodb.net/admin",
+  "password": "xxxxxxxxxx",
+  "uri": "mongodb+srv://chewy-123.6bikq.mongodb.net",
+  "username": "uuuuuuuuuu",
+  "datbase": "admin"
+}
 ```
 
 Please see the [test/hello-atlas-cf](test/hello-atlas-cf) sample app to see details on the binding information available to apps.
