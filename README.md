@@ -543,11 +543,12 @@ See [LICENSE](LICENSE). Licenses for all third-party dependencies are included i
 
 # Support, Bugs, Feature Requests
 
-_CURRENT BETA_ --> We expect to launch our beta on or before August 25, 2020 and follow up with general availability shortly thereafter.
+## CURRENT BETA 
+We expect to launch our beta on or before August 25, 2020 and follow up with general availability shortly thereafter.
 
 Support for the MongoDB Atlas-OSB is provided under MongoDB Atlas support plans. Please submit support questions within the Atlas UI. Support questions submitted under the Issues section of this repo will be handled on a "best effort" basis.
 
 Bugs should be filed under the Issues section of this repo.
 
-:construction: Feature requests can be submitted at https://feedback.mongodb.com/<COMING-SOON> - just select "atlas-osb" as the category or vote for an already suggested feature.
+Feature requests can be submitted at https://feedback.mongodb.com/forums/924145-atlas?category_id=370720 - just select "Atlas Service Broker" as the category or vote for an already suggested feature.
 
