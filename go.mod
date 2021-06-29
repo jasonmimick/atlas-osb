@@ -23,10 +23,11 @@ require (
 	github.com/pborman/uuid v1.2.0 // indirect
 	github.com/pivotal-cf/brokerapi v5.1.0+incompatible
 	github.com/pkg/errors v0.9.1
-	github.com/stretchr/testify v1.6.1
+	github.com/stretchr/testify v1.7.0
 	github.com/xdg/stringprep v1.0.0 // indirect
 	go.mongodb.org/mongo-driver v1.4.0
-	go.uber.org/zap v1.15.0
+	go.uber.org/tools v0.0.0-20190618225709-2cfd321de3ee // indirect
+	go.uber.org/zap v1.18.1
 	golang.org/x/net v0.0.0-20200625001655-4c5254603344 // indirect
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45 // indirect
 	golang.org/x/sync v0.0.0-20200625203802-6e8e738ad208 // indirect
@@ -35,6 +36,7 @@ require (
 	golang.org/x/tools v0.0.0-20200103221440-774c71fcf114 // indirect
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	gopkg.in/yaml.v2 v2.3.0
+	honnef.co/go/tools v0.0.1-2019.2.3 // indirect
 	k8s.io/api v0.0.0-20190806064354-8b51d7113622
 	k8s.io/apimachinery v0.0.0-20190802060556-6fa4771c83b3
 	k8s.io/client-go v0.0.0-20190620085101-78d2af792bab
